@@ -7,7 +7,7 @@ async fn main() {
     loop {
         const TEXT: &str = "A bloody square";
 
-        let mut square = Rect {
+        let square = Rect {
             x: screen_width() / 2. - 100.,
             y: screen_height() / 2. - 100.,
             w: 200.,
