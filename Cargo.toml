@@ -2,10 +2,8 @@
 name = "render-things"
 version = "0.1.0"
 edition = "2021"
-description = """
-Rendering things
-"""
-readme="README.md"
+description = "Rendering things"
+readme= "README.md"
 
 [dependencies]
 macroquad = "0.3"
