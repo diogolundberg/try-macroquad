@@ -13,7 +13,6 @@ struct Point {
 struct Character {
     pos: Point,
     vel: f32,
-    size: Vec2,
     animation: Animation,
     source: Rect,
 }
@@ -32,21 +31,26 @@ async fn main() {
     let bytes = assets["adventurer.png"].clone();
     let texture: Texture2D = Texture2D::from_file_with_format(bytes, Some(ImageFormat::Png));
 
+    let ratio = screen_height() / 200.;
+
     let mut adventurer = Character {
         pos: Point { x: 0., y: 0. },
-        vel: screen_width() / 50.,
-        size: vec2(screen_width() / 6., screen_height() / 6.),
+        vel: 7. * ratio,
         animation: Animation {
-            frames: vec![50., 100., 150., 200., 250., 300.],
+            frames: vec![61., 111., 161., 211., 261., 311.],
             current_frame: 0,
         },
         source: Rect {
             x: 0.,
             y: 45.,
-            w: 50.,
+            w: 28.,
             h: 28.,
         },
     };
+
+    let size = vec2(adventurer.source.w * ratio, adventurer.source.h * ratio);
+
+    print!("{:?}", size);
 
     let mut last_render_time = get_time();
 
@@ -58,7 +62,7 @@ async fn main() {
 
             if adventurer.pos.x < 0.
                 || adventurer.pos.x
-                    >= screen_width() - adventurer.source.w * adventurer.size.x / 60.
+                    >= screen_width() - size.x
             {
                 adventurer.vel = -adventurer.vel;
             }
@@ -69,7 +73,7 @@ async fn main() {
                 adventurer.pos.y,
                 WHITE,
                 DrawTextureParams {
-                    dest_size: Some(adventurer.size),
+                    dest_size: Some(size),
                     source: Some(adventurer.render()),
                     flip_x: adventurer.vel < 0.,
                     ..Default::default()
